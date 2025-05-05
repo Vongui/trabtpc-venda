@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastrar Venda</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script>
+        let produtos = {{ produtos | tojson }};
+        let itensVenda = [];
+
+        function adicionarItem() {
+    const codProduto = parseInt(document.getElementById("produto").value);
+    const qtde = parseInt(document.getElementById("qtde").value);
+    const produto = produtos.find(p => p.codproduto === codProduto);
+
+    if (!produto || qtde <= 0) {
+        alert("Produto inválido ou quantidade inválida.");
+        return;
+    }
+
+    // Verifica se o produto já está na lista de itens
+    const itemExistente = itensVenda.find(item => item.codproduto === codProduto);
+
+    if (itemExistente) {
+        // Se o item já existe, apenas atualiza a quantidade e o subtotal
+        itemExistente.qtde += qtde;
+        itemExistente.subtotal = itemExistente.valor * itemExistente.qtde;
+    } else {
+        // Se o item não existe, adiciona um novo
+        const valor = parseFloat(produto.preco);
+        const total = valor * qtde;
+
+        itensVenda.push({
+            codproduto: codProduto,
+            descricao: produto.descricao,
+            qtde: qtde,
+            valor: valor,
+            subtotal: total
+        });
+    }
+
+    atualizarTabela();
+    atualizarTotal();
+}
+
+        function atualizarTabela() {
+            const tbody = document.getElementById("tabela-itens");
+            tbody.innerHTML = "";
+            itensVenda.forEach((item, index) => {
+                let linha = `<tr>
+                    <td>${item.descricao}</td>
+                    <td>${item.qtde}</td>
+                    <td>R$ ${item.valor.toFixed(2)}</td>
+                    <td>R$ ${item.subtotal.toFixed(2)}</td>
+                    <td><button type="button" onclick="removerItem(${index})">Remover</button></td>
+                </tr>`;
+                tbody.innerHTML += linha;
+            });
+
+            document.getElementById("input-itens").value = JSON.stringify(itensVenda);
+        }
+
+        function atualizarTotal() {
+            const total = itensVenda.reduce((sum, item) => sum + item.subtotal, 0);
+            document.getElementById("valor_total").value = total.toFixed(2);
+        }
+
+        function removerItem(index) {
+            itensVenda.splice(index, 1);
+            atualizarTabela();
+            atualizarTotal();
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <h2>Cadastrar Nova Venda</h2>
+
+        <form method="POST" action="/salvar-venda">
+            <label>Cliente:</label>
+            <select name="codcliente" required>
+                <option value="">Selecione</option>
+                {% for cliente in clientes %}
+                    <option value="{{ cliente.codcliente }}">{{ cliente.nome }}</option>
+                {% endfor %}
+            </select>
+
+            <label>Data:</label>
+            <input type="date" name="data" required>
+
+            <label>Produto:</label>
+            <select id="produto">
+                <option value="">Selecione</option>
+                {% for produto in produtos %}
+                    <option value="{{ produto.codproduto }}">{{ produto.descricao }}</option>
+                {% endfor %}
+            </select>
+
+            <label>Quantidade:</label>
+            <input type="number" id="qtde" min="1" value="1">
+
+            <button type="button" onclick="adicionarItem()">Adicionar Item</button>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Quantidade</th>
+                        <th>Valor Unitário</th>
+                        <th>Subtotal</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela-itens"></tbody>
+            </table>
+
+            <label>Valor Total:</label>
+            <input type="text" id="valor_total" name="valor_total" readonly>
+
+            <input type="hidden" name="itens" id="input-itens">
+
+            <button type="submit">Salvar Venda</button>
+        </form>
+
+        <a href="/listar-vendas"><button>Cancelar</button></a>
+    </div>
+</div>
+</body>
+</html>

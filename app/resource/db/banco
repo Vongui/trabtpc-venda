@@ -1,0 +1,32 @@
+create database vendaflask;
+use vendaflask;
+
+create table cliente(
+	codcliente INT primary key auto_increment,
+    nome VARCHAR(40),
+    endereco VARCHAR(100)
+);
+
+create table produto(
+	codproduto INT primary key auto_increment,
+    descricao VARCHAR(50),
+    preco DECIMAL(8,2)
+);
+
+create table venda(
+	codvenda INT primary key auto_increment,
+    data DATE,
+    valor_total DECIMAL(8,2),
+    codcliente INT,
+    foreign key(codcliente) references cliente(codcliente)
+);
+
+create table item_venda(
+	codvenda INT,
+    codproduto INT,
+    qtde INT,
+    valor DECIMAL(8,2),
+    primary key(codvenda, codproduto),
+    foreign key(codvenda) references venda(codvenda),
+    foreign key(codproduto) references produto(codproduto)
+);

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalhes da Venda</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <h2>Detalhes da Venda</h2>
+
+        <p><strong>Código da Venda:</strong> {{ venda.codvenda }}</p>
+        <p><strong>Data:</strong> {{ venda.data }}</p>
+        <p><strong>Cliente:</strong>
+            {% for cliente in lista_clientes %}
+                {% if cliente.codcliente == venda.codcliente %}
+                    {{ cliente.nome }}
+                {% endif %}
+            {% endfor %}
+        </p>
+        <p><strong>Valor Total:</strong> R$ {{ venda.valor_total }}</p>
+
+        <h3>Itens da Venda</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Quantidade</th>
+                    <th>Valor Unitário</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in itens %}
+                <tr>
+                    <td>
+                        {% for produto in produtos %}
+                            {% if produto.codproduto == item.codproduto %}
+                                {{ produto.descricao }}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>{{ item.qtde }}</td>
+                    <td>R$ {{ item.valor }}</td>
+                    <td>R$ {{ item.valor * item.qtde }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="text-center">
+            <a href="/listar-vendas"><button>Voltar</button></a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Alunos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <h2 class="text-center">{{ titulo }}</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Endereco</th>
+                    <th>Açoes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cliente in lista %}
+                <tr>
+                    <td>{{ cliente.codcliente }}</td>
+                    <td>{{ cliente.nome }}</td>
+                    <td>{{ cliente.endereco }}</td>
+                    <td>
+                        <a href="/remover-cliente/{{ cliente.codcliente }}">
+                            <button>Remover</button>
+                        </a>
+                    </td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="text-center">
+            <a href="/"><button>Voltar</button></a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

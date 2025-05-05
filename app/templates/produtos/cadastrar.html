@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ titulo }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <h2>Cadastro de Aluno</h2>
+        <form action="/cadastrar-produto" method="post">
+
+            <label for="descricao">Descrição:</label>
+            <input type="text" name="descricao" id="descricao" maxlength="50" required>
+
+            <div class="mb-3">
+                <label for="preco" class="form-label">Preço:</label>
+                <div class="input-group">
+                    <span class="input-group-text">R$</span>
+                     <input type="number" name="preco" id="preco" class="form-control" step="0.01" min="0" required>
+                 </div>
+            </div>
+
+
+
+            <input type="submit" value="Cadastrar">
+        </form>
+
+        <div class="text-center">
+            <a href="/">
+                <button>Voltar</button>
+            </a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

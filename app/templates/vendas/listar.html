@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ titulo }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <h2 class="text-center">{{ titulo }}</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Data</th>
+                    <th>Cliente</th>
+                    <th>Valor Total</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for venda in lista %}
+                <tr>
+                    <td>{{ venda.codvenda }}</td> <!-- codvenda -->
+                    <td>{{ venda.data }}</td> <!-- data -->
+                    <td>
+                        {% for cliente in lista_clientes %}
+                            {% if cliente.codcliente == venda.codcliente %}
+                                {{ cliente.nome }}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>R$ {{ venda.valor_total }}</td> <!-- valor_total -->
+                    <td>
+                        <a href="/detalhes-venda/{{ venda.codvenda }}"><button>Detalhes</button></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="text-center">
+            <a href="/cadastrar-vendas"><button>Nova Venda</button></a>
+            <a href="/"><button>Voltar</button></a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

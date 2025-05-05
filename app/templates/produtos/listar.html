@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Alunos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <h2 class="text-center">{{ titulo }}</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Descricao</th>
+                    <th>Preço</th>
+                    <th>Açoes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for produto in lista %}
+                <tr>
+                    <td>{{ produto.codproduto }}</td>
+                    <td>{{ produto.descricao }}</td>
+                    <td>{{ produto.preco }}</td>
+                    <td>
+                        <a href="/remover-produto/{{ produto.codproduto }}">
+                            <button>Remover</button>
+                        </a>
+                    </td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="text-center">
+            <a href="/"><button>Voltar</button></a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
