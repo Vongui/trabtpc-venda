@@ -1,4 +1,4 @@
-from app.dao.connection import *
+from application.dao.connection import *
 
 
 class ControleGenerico:

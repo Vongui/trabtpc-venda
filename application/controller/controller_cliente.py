@@ -1,5 +1,5 @@
-from app.controller.controller_generico import ControleGenerico
-from app.model.cliente import Cliente
+from application.controller.controller_generico import ControleGenerico
+from application.model.cliente import Cliente
 
 
 class ControllerCliente(ControleGenerico):

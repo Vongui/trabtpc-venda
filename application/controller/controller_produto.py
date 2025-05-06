@@ -1,5 +1,5 @@
-from app.controller.controller_generico import ControleGenerico
-from app.model.produto import Produto
+from application.controller.controller_generico import ControleGenerico
+from application.model.produto import Produto
 
 
 class ControllerProduto(ControleGenerico):
