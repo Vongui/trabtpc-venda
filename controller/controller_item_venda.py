@@ -1,5 +1,7 @@
-from application.model.item_venda import ItemVenda
-from application.controller.controller_generico import ControleGenerico
+from dao.connection import Banco
+from model.item_venda import ItemVenda
+
+from controller.controller_generico import ControleGenerico
 
 
 class ControllerItemVenda(ControleGenerico):

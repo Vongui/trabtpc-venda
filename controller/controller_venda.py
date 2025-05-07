@@ -1,5 +1,5 @@
-from application.controller.controller_generico import ControleGenerico
-from application.model.venda import Venda
+from controller.controller_generico import ControleGenerico
+from model.venda import Venda
 
 
 class ControllerVenda(ControleGenerico):
